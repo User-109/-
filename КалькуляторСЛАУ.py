@@ -1,7 +1,7 @@
 ﻿import copy
 import time
 import os
-
+os.system('cls')
 def getInput():
     unknownVariablesAmount = input("Введите количество переменных: ")
     expressionAmount = input("ВВедите количество уравнений: ")
@@ -102,11 +102,12 @@ def displayMatrix(n):
         print(line)
 
 def evaluate_expression(expression):
+
     try:
         result = eval(expression)
         return result
     except Exception as e:
-        return "Error"
+        return 0
 
 def insertNumberInmatrix(n, i = 0,j = 0):
     try:
@@ -143,4 +144,64 @@ insertNumberInmatrix(n,0,0)
 os.system('cls')
 displayMatrix(n)
 
+while True:
+    os.system("cls")
+    displayMatrix(n)
+    pos = ''
+    pos = input('Вы хоитите внести правки в матрицу?\nЕсли ДА, то введите индекс ячейки, иначе просто нажмите ENTER. \nПример: "1,1" или "1,2"\n')
+    if len(pos) > 0:
+        temp = pos.replace(" ","")
+        temp = temp.split(",")
+        j = int(temp[1])
+        i = int(temp[0])
+        if (j >= 1 and j <= (n+1)  and i >= 1 and i <= n):
+            while True:
+                try:
+                    newnum = int(input("Введите новое число для этой ячейки: "))
+                    break    
+                except:
+                    os.system("cls")
+                    displayMatrix(n)
+                    print("Вы ввели некорректное число. ")
+                    print("Попробуйте снова")
+            i-=1
+            j-=1
+            if (j == (n)):
+                resultMatrix[i] = newnum
+                continue
+            else:
+                matrix[i][j] = newnum
+                continue
+        else:
+            while True:
+                os.system('cls')
+                displayMatrix(n)
+                pos = input("Вы указали несуществующую ячейку. Пробуйте снова.\n Пример адреса '1,2'")
+                temp = pos.replace(" ","")
+                temp = temp.split(",")
+
+                if (len(temp) != 2):
+                    continue
+                i = int(temp[0])
+                j = int(temp[1])
+                if (j >= 1 and j <= (n)  and i >= 0 and i <= n):
+                    i-=1
+                    j-=1
+                    while True:
+                        try:
+                            newnum = int(input("Введите новое число для этой ячейки: "))
+                            break    
+                        except:
+                            os.system("cls")
+                            displayMatrix(n)
+                            print("Вы ввели некорректное число. ")
+                            print("Попробуйте снова")
+                    if (j == (n+2)):
+                        resultMatrix[i] = newnum
+                        continue
+                    else:
+                        matrix[i][j] = newnum
+                        continue
+    else:
+        break
 print(Kramer(matrix,resultMatrix))
